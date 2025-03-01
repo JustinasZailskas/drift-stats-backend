@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const AppError = require("../utils/AppError");
 
 const connectToDatabase = async () => {
   try {
@@ -6,7 +7,7 @@ const connectToDatabase = async () => {
     console.log("Prisijungta prie duomenu bazes");
   } catch (error) {
     console.error("Klaida jungianties prie MongoDB", error.message);
-    process.exit(1);
+    throw new AppError("Nepavyko prisijungti prie duomenų bazės", 500);
   }
 };
 

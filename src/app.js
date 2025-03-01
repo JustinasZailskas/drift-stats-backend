@@ -5,15 +5,17 @@ require("dotenv").config();
 const app = express();
 const connectToDatabase = require("./services/database");
 const leagueRouter = require("./routes/leagueRoutes");
+const authRouter = require("./routes/authRoutes");
+const auth = require("./middlewares/authMiddleware");
 
 connectToDatabase();
 app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.status(200);
-  res.send("Welcome to root URL of Server");
+  res.status(200).send("Welcome to root URL of Server");
 });
+app.use("/", authRouter);
 app.use("/league", leagueRouter);
 app.use((req, res) => {
   res.status(404).json({ error: "Puslapis nerastas" });
