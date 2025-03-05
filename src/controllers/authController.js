@@ -5,13 +5,15 @@ exports.login = async (req, res, next) => {
   const { username, password } = req.body;
   try {
     if (!username || !password) {
-      console.log("test");
-      throw new AppError("Iveskite prisijungimo varda ir slaptazodi", 400);
+      return next(
+        new AppError("Iveskite prisijungimo varda ir slaptazodi", 400)
+      );
     }
     const token = await authService.login(username, password);
     res.status(200).json({ token });
   } catch (error) {
-    next(error);
+    console.log("Login klaida", error.message);
+    next(new AppError("Neteisingas prisijungimo vardas arba slaptažodis", 401));
   }
 };
 

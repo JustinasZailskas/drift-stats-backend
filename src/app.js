@@ -6,7 +6,9 @@ const app = express();
 const connectToDatabase = require("./services/database");
 const leagueRouter = require("./routes/leagueRoutes");
 const authRouter = require("./routes/authRoutes");
+const seasonRouter = require("./routes/seasonRoutes");
 const auth = require("./middlewares/authMiddleware");
+const errorHandler = require("./middlewares/errorHandler");
 
 connectToDatabase();
 app.use(cors());
@@ -17,6 +19,7 @@ app.get("/", (req, res) => {
 });
 app.use("/", authRouter);
 app.use("/league", leagueRouter);
+app.use("/season", seasonRouter);
 app.use((req, res) => {
   res.status(404).json({ error: "Puslapis nerastas" });
 });
@@ -33,4 +36,4 @@ mongoose.connection.once("open", () => {
   });
 });
 
-module.exports = app;
+app.use(errorHandler);
