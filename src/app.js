@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 app.use("/", authRouter);
 app.use("/league", leagueRouter);
-app.use("/season", seasonRouter);
+app.use("/seasons", seasonRouter);
 app.use((req, res) => {
   res.status(404).json({ error: "Puslapis nerastas" });
 });
